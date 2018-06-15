@@ -16,8 +16,11 @@ import java.util.List;
 @RestController
 public class BrandController {
 
-    //包扫描需要配置的注解
-    @Reference
+    /**
+     * 包扫描需要配置的注解：引用服务
+     * timeout:调用服务超市的毫秒数
+     */
+    @Reference(timeout = 10000)
     private BrandService brandService;
 
     //查询所有品牌
