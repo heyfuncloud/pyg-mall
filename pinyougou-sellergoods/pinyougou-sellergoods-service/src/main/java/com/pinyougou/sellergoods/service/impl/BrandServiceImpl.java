@@ -5,6 +5,7 @@ import com.github.pagehelper.ISelect;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.pinyougou.common.pojo.PageResult;
 import com.pinyougou.mapper.BrandMapper;
 import com.pinyougou.pojo.Brand;
 import com.pinyougou.sellergoods.service.BrandService;
@@ -38,5 +39,61 @@ public class BrandServiceImpl implements BrandService {
         System.out.println("总记录数："+pageInfo.getTotal());
         System.out.println("总页数："+pageInfo.getPages());
         return pageInfo.getList();
+    }
+
+    /**
+     * 分页查询品牌列表
+     * @param page
+     * @param rows
+     * @return
+     */
+    @Override
+    public PageResult findByPage(int page, int rows) {
+        try {
+            PageInfo<Brand> pageInfo = PageHelper.startPage(page, rows)
+                    .doSelectPageInfo(new ISelect() {
+                        @Override
+                        public void doSelect() {
+                            brandMapper.selectAll();
+                        }
+                    });
+            return new PageResult(pageInfo.getTotal(),pageInfo.getList());
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    //添加品牌
+    @Override
+    public void saveBrand(Brand brand) {
+        try {
+            //选择性添加
+            brandMapper.insertSelective(brand);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    //修改品牌
+    @Override
+    public void updateBrand(Brand brand) {
+        try {
+            //选择性修改
+            brandMapper.updateByPrimaryKeySelective(brand);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    //删除品牌
+    @Override
+    public void deleteBrand(Long[] ids) {
+        try {
+            //
+            brandMapper.deleteAll(ids);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

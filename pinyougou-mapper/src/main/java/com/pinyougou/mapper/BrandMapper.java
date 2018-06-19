@@ -2,6 +2,7 @@ package com.pinyougou.mapper;
 
 import com.pinyougou.pojo.Brand;
 
+import org.apache.ibatis.annotations.Param;
 import tk.mybatis.mapper.common.Mapper;
 
 /**
@@ -12,5 +13,7 @@ import tk.mybatis.mapper.common.Mapper;
  * @version 1.0
  */
 public interface BrandMapper extends Mapper<Brand> {
-	
+
+    //批量删除品牌
+    void deleteAll(@Param("ids") Long[] ids);
 }

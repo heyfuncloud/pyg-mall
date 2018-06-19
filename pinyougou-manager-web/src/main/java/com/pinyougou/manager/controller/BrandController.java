@@ -1,10 +1,10 @@
 package com.pinyougou.manager.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.pinyougou.common.pojo.PageResult;
 import com.pinyougou.pojo.Brand;
 import com.pinyougou.sellergoods.service.BrandService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -14,6 +14,7 @@ import java.util.List;
 *  @date 2018/6/13 3:06
 */
 @RestController
+@RequestMapping("/brand")
 public class BrandController {
 
     /**
@@ -28,4 +29,45 @@ public class BrandController {
     public List<Brand> findAll(){
         return brandService.findAll();
     }
+    //分页查询所有品牌
+    @GetMapping("/findByPage")
+    public PageResult findByPage(@RequestParam("page") Integer page,
+                                 @RequestParam("rows") Integer rows){
+        return brandService.findByPage(page,rows);
+    }
+    //添加品牌
+    @PostMapping("/save")
+    public boolean save(@RequestBody Brand brand){
+        try {
+            brandService.saveBrand(brand);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    //修改品牌
+    @PostMapping("/update")
+    public boolean update(@RequestBody Brand brand){
+        try {
+            brandService.updateBrand(brand);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    //删除品牌
+    @GetMapping("/delete")
+    public boolean delete(Long[] ids){
+        try {
+            brandService.deleteBrand(ids);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 }
