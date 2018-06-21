@@ -11,4 +11,22 @@
         </foreach>
     </delete>
 
+    <!-- 分页条件查询品牌 -->
+    <select id="findAll" resultType="brand">
+        select * from tb_brand
+        <where>
+            <if test="brand != null">
+                <!-- 品牌名称 -->
+                <if test="brand.name != null and brand.name != ''">
+                    name like CONCAT('%',#{brand.name},'%')
+                </if>
+                <!-- 品牌首字母 -->
+                <if test="brand.firstChar != null and brand.firstChar != ''">
+                    and first_char = #{brand.firstChar}
+                </if>
+            </if>
+        </where>
+        order by id desc
+    </select>
+
 </mapper>

@@ -4,9 +4,12 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.pinyougou.common.pojo.PageResult;
 import com.pinyougou.pojo.Brand;
 import com.pinyougou.sellergoods.service.BrandService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
+import java.util.Map;
 
 /**
 *  @Description
@@ -31,9 +34,18 @@ public class BrandController {
     }
     //分页查询所有品牌
     @GetMapping("/findByPage")
-    public PageResult findByPage(@RequestParam("page") Integer page,
+    public PageResult findByPage(Brand brand,
+                                 @RequestParam("page") Integer page,
                                  @RequestParam("rows") Integer rows){
-        return brandService.findByPage(page,rows);
+        try {
+            //get请求，中文乱码解决
+            if(brand!=null && StringUtils.isNoneBlank(brand.getName())){
+                brand.setName(new String(brand.getName().getBytes("ISO-8859-1"),"UTF-8"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return brandService.findByPage(brand,page,rows);
     }
     //添加品牌
     @PostMapping("/save")
@@ -68,6 +80,16 @@ public class BrandController {
             e.printStackTrace();
         }
         return false;
+    }
+
+    /** 定义品牌列表（id与name） */
+    @GetMapping("findBrandList")
+    public List<Map<String,Object>> findBrandList(){
+        try {
+            return brandService.findAllByIdAndName();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

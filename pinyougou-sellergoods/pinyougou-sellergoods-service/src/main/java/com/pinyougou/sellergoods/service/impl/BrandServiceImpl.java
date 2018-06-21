@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 /**
 *  @Description 品牌服务接口实现类
@@ -48,13 +49,13 @@ public class BrandServiceImpl implements BrandService {
      * @return
      */
     @Override
-    public PageResult findByPage(int page, int rows) {
+    public PageResult findByPage(Brand brand,int page, int rows) {
         try {
             PageInfo<Brand> pageInfo = PageHelper.startPage(page, rows)
                     .doSelectPageInfo(new ISelect() {
                         @Override
                         public void doSelect() {
-                            brandMapper.selectAll();
+                            brandMapper.findAll(brand);
                         }
                     });
             return new PageResult(pageInfo.getTotal(),pageInfo.getList());
@@ -92,6 +93,17 @@ public class BrandServiceImpl implements BrandService {
         try {
             //
             brandMapper.deleteAll(ids);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    //查询所有品牌(id与name)
+    @Override
+    public List<Map<String, Object>> findAllByIdAndName() {
+        try {
+            //
+            return brandMapper.findBrandByIdAndName();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
