@@ -3,5 +3,22 @@
 	"-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.pinyougou.mapper.SellerMapper" >
-  
+	<!-- 多条件查询待审核商家 -->
+	<select id="findAll" resultType="seller">
+		select * from tb_seller
+		<where>
+			<!-- 判断seller对象是否为空 -->
+			<if test="seller != null">
+				<if test="seller.status != null and seller.status != ''">
+					status = #{seller.status}
+				</if>
+				<if test="seller.name != null and seller.name != ''">
+					and name like CONCAT('%',#{seller.name},'%')
+				</if>
+				<if test="seller.nickName != null and seller.nickName != ''">
+					and nick_name like CONCAT('%',#{seller.nickName},'%')
+				</if>
+			</if>
+		</where>
+	</select>
 </mapper>

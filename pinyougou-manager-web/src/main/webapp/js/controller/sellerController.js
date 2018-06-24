@@ -4,13 +4,6 @@ app.controller('sellerController', function($scope, $controller, baseService){
     /** 指定继承baseController */
     $controller('baseController',{$scope:$scope});
 
-    /** 查询全部 */
-    $scope.findAll = function(){
-        baseService.sendGet("/seller/findAll").then(function(response){
-            $scope.dataList = response.data;
-        });
-    };
-
     /** 定义搜索对象 */
     $scope.searchEntity = {};
     /** 分页查询 */

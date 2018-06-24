@@ -117,7 +117,7 @@ public class SpecificationServiceImpl implements SpecificationService {
 	/** 查询规格列表(id,name) */
 	public List<Map<String,Object>> findSpecByIdAndName(){
 		try{
-			return null;
+			return specificationMapper.findSpecByIdAndName();
 		}catch (Exception ex){
 			throw new RuntimeException(ex);
 		}

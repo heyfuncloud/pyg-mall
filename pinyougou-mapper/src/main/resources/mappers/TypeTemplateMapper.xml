@@ -16,4 +16,12 @@
 		</where>
 		order by id
 	</select>
+
+	<!-- 批量删除类型模板 -->
+	<delete id="deleteAll">
+		delete from tb_type_template where id in
+		<foreach collection="ids" item="id" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
 </mapper>

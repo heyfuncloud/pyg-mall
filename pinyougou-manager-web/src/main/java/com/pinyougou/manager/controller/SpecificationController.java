@@ -87,7 +87,7 @@ public class SpecificationController {
 	}
 
 	/** 查询规格列表(id,name) */
-	@GetMapping("/selectSpecList")
+	@GetMapping("/findSpecList")
 	public List<Map<String, Object>> selectSpecList(){
 		return specificationService.findSpecByIdAndName();
 	}

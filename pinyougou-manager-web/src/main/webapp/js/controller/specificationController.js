@@ -65,7 +65,7 @@ app.controller('specificationController', function($scope, $controller, baseServ
     $scope.addTableRow = function () {
         //网规格选项数组中添加
         $scope.entity.specificationOptions.push({});
-    }
+    };
     /** 定义删除一行规格选项方法 */
     $scope.deleteTableRow = function (index) {
         $scope.entity.specificationOptions.splice(index,1);

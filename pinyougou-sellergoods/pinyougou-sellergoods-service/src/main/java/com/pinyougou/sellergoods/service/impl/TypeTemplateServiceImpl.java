@@ -11,6 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.pinyougou.sellergoods.service.TypeTemplateService;
+import tk.mybatis.mapper.entity.Example;
+
+import java.util.Arrays;
 
 
 /**
@@ -52,7 +55,7 @@ public class TypeTemplateServiceImpl implements TypeTemplateService {
 	/** 添加类型模版 */
 	public void saveTypeTemplate(TypeTemplate typeTemplate){
 		try{
-			
+			typeTemplateMapper.insertSelective(typeTemplate);
 		}catch (Exception ex){
 			throw new RuntimeException(ex);
 		}
@@ -61,7 +64,7 @@ public class TypeTemplateServiceImpl implements TypeTemplateService {
 	/** 修改类型模版 */
 	public void updateTypeTemplate(TypeTemplate typeTemplate){
 		try{
-			
+			typeTemplateMapper.updateByPrimaryKeySelective(typeTemplate);
 		}catch (Exception ex){
 			throw new RuntimeException(ex);
 		}
@@ -70,7 +73,9 @@ public class TypeTemplateServiceImpl implements TypeTemplateService {
 	/** 删除类型模版 */
 	public void deleteTypeTemplate(Long[] ids){
 		try{
-			
+			//方式一：
+			typeTemplateMapper.deleteAll(ids);
+
 		}catch (Exception ex){
 			throw new RuntimeException(ex);
 		}

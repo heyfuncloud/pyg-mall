@@ -12,4 +12,7 @@ public interface TypeTemplateMapper extends Mapper<TypeTemplate> {
 
     /** 多条件查询类型模板 */
     List<TypeTemplate> findAll(@Param("typeTemplate") TypeTemplate typeTemplate);
+
+    /** 批量删除类型模板 */
+    void deleteAll(@Param("ids") Long[] ids);
 }

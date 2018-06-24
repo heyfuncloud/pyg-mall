@@ -32,7 +32,10 @@ public class SellerServiceImpl implements SellerService {
 	/** 添加商家 */
 	public void saveSeller(Seller seller){
 		try {
-			
+			//设置审核状态
+			seller.setStatus("0");
+			seller.setCreateTime(new Date());
+			sellerMapper.insertSelective(seller);
 		}catch (Exception ex){
 			throw new RuntimeException(ex);
 		}
@@ -47,8 +50,13 @@ public class SellerServiceImpl implements SellerService {
 	 */
 	public PageResult findByPage(Seller seller, Integer page, Integer rows){
 		try {
-			
-			return null;
+			PageInfo<Seller> pageInfo = PageHelper.startPage(page, rows).doSelectPageInfo(new ISelect() {
+				@Override
+				public void doSelect() {
+					sellerMapper.findAll(seller);
+				}
+			});
+			return new PageResult(pageInfo.getTotal(),pageInfo.getList());
 		}catch (Exception ex){
 			throw new RuntimeException(ex);
 		}
